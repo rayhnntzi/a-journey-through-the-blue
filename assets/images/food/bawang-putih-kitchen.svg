@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="72%">
+      <stop offset="0%" stop-color="#19527E"/>
+      <stop offset="58%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#051326"/>
+    </radialGradient>
+    <radialGradient id="domeGlow" cx="50%" cy="48%" r="36%">
+      <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#70C9E8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="garlic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4FBFF"/>
+      <stop offset="65%" stop-color="#D7EBF5"/>
+      <stop offset="100%" stop-color="#9BC3D9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#domeGlow)"/>
+  <!-- Plinth -->
+  <ellipse cx="400" cy="378" rx="190" ry="26" fill="#071C36" stroke="#70C9E8" stroke-opacity="0.42" stroke-width="2"/>
+  <ellipse cx="400" cy="368" rx="158" ry="18" fill="#123F67"/>
+  <!-- Garlic Bulb Centerpiece -->
+  <g transform="translate(400,312)">
+    <path d="M-6 -96 C-4 -120 4 -120 6 -96 L14 -56 C52 -46 72 -12 64 26 C56 54 30 62 0 62 C-30 62 -56 54 -64 26 C-72 -12 -52 -46 -14 -56 Z" fill="url(#garlic)"/>
+    <path d="M0 -84 C20 -46 28 12 18 58" fill="none" stroke="#85B3CC" stroke-width="2.2" opacity="0.65"/>
+    <path d="M0 -84 C-20 -46 -28 12 -18 58" fill="none" stroke="#85B3CC" stroke-width="2.2" opacity="0.65"/>
+    <path d="M0 -88 V60" fill="none" stroke="#85B3CC" stroke-width="1.8" opacity="0.5"/>
+  </g>
+  <!-- Crystal Glass Cloche -->
+  <path d="M244 366 V242 C244 146 314 96 400 96 C486 96 556 146 556 242 V366" fill="#70C9E8" fill-opacity="0.09" stroke="#B9E8F5" stroke-opacity="0.62" stroke-width="2.5"/>
+  <circle cx="400" cy="84" r="13" fill="#B9E8F5" fill-opacity="0.35" stroke="#F4FBFF" stroke-opacity="0.7" stroke-width="2"/>
+  <path d="M276 238 C278 168 320 128 366 118" fill="none" stroke="#F4FBFF" stroke-opacity="0.42" stroke-width="4" stroke-linecap="round"/>
+  <!-- Floating bubbles & kitchen silhouettes -->
+  <g fill="none" stroke="#B9E8F5" stroke-opacity="0.52" stroke-width="1.8">
+    <circle cx="176" cy="212" r="14"/><circle cx="198" cy="168" r="8"/><circle cx="628" cy="196" r="16"/><circle cx="604" cy="148" r="7"/>
+  </g>
+</svg>

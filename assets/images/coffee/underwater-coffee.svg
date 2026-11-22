@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bg" cx="55%" cy="35%" r="72%">
+      <stop offset="0%" stop-color="#1A4C75"/>
+      <stop offset="56%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#051326"/>
+    </radialGradient>
+    <radialGradient id="lamp" cx="50%" cy="22%" r="48%">
+      <stop offset="0%" stop-color="#E8B870" stop-opacity="0.36"/>
+      <stop offset="60%" stop-color="#E8B870" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#E8B870" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cup" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F4FBFF"/>
+      <stop offset="100%" stop-color="#A7D4E8"/>
+    </linearGradient>
+    <linearGradient id="coffee" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5B341B"/>
+      <stop offset="50%" stop-color="#8B5630"/>
+      <stop offset="100%" stop-color="#4A2814"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#lamp)"/>
+  <!-- Hanging amber lantern -->
+  <line x1="400" y1="0" x2="400" y2="72" stroke="#B9E8F5" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M368 104 C368 78 432 78 432 104 Z" fill="#123F67" stroke="#E8B870" stroke-width="1.8"/>
+  <ellipse cx="400" cy="108" rx="18" ry="8" fill="#E8B870" opacity="0.88"/>
+  <!-- Cafe tabletop -->
+  <path d="M80 390 L720 390 L760 465 L40 465 Z" fill="#081E38" stroke="#70C9E8" stroke-opacity="0.22"/>
+  <!-- Warm ceramic coffee cup -->
+  <ellipse cx="355" cy="396" rx="115" ry="18" fill="#0E345A" stroke="#B9E8F5" stroke-opacity="0.35"/>
+  <path d="M276 286 H434 L420 374 C416 394 392 400 355 400 C318 400 294 394 290 374 Z" fill="url(#cup)"/>
+  <path d="M432 304 C466 304 466 364 424 364" fill="none" stroke="#D2EBF6" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="355" cy="286" rx="79" ry="15" fill="url(#coffee)"/>
+  <path d="M335 286 C345 278 365 278 375 286 C365 293 345 293 335 286 Z" fill="#EBD5B8" opacity="0.72"/>
+  <!-- Tall iced coffee glass beside it -->
+  <path d="M510 248 H602 L590 394 H522 Z" fill="#70C9E8" fill-opacity="0.16" stroke="#B9E8F5" stroke-opacity="0.52" stroke-width="2"/>
+  <path d="M516 282 H596 L588 388 H524 Z" fill="#7D4A26" opacity="0.82"/>
+  <path d="M518 282 Q556 302 594 284 L592 316 Q556 328 520 310 Z" fill="#EED9BF" opacity="0.65"/>
+  <!-- Gentle steam curls -->
+  <g fill="none" stroke="#F4FBFF" stroke-opacity="0.4" stroke-width="2.4" stroke-linecap="round">
+    <path d="M330 256 C318 228 342 204 330 176"/>
+    <path d="M372 250 C360 222 384 198 372 168"/>
+  </g>
+</svg>

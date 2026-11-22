@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#071C36"/>
+      <stop offset="52%" stop-color="#123F67"/>
+      <stop offset="100%" stop-color="#1E5D8B"/>
+    </linearGradient>
+    <radialGradient id="barnLight" cx="56%" cy="56%" r="32%">
+      <stop offset="0%" stop-color="#E8B870" stop-opacity="0.46"/>
+      <stop offset="100%" stop-color="#E8B870" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <rect width="800" height="500" fill="url(#barnLight)"/>
+  <!-- Rolling misty blue-hour meadow hills -->
+  <path d="M0 330 Q220 265 440 315 T800 295 V500 H0 Z" fill="#0B2E4E"/>
+  <path d="M0 370 Q260 320 520 365 T800 350 V500 H0 Z" fill="#08213D"/>
+  <!-- Cozy Glass-and-Timber Barn -->
+  <g transform="translate(415,212)">
+    <polygon points="0,58 78,0 156,58 156,144 0,144" fill="#10365B" stroke="#70C9E8" stroke-opacity="0.52" stroke-width="2"/>
+    <polyline points="-12,64 78,-8 168,64" fill="none" stroke="#B9E8F5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="48" y="72" width="60" height="72" rx="4" fill="#E8B870" fill-opacity="0.72" stroke="#F4FBFF" stroke-opacity="0.6"/>
+    <line x1="78" y1="72" x2="78" y2="144" stroke="#0B2746" stroke-width="2.2"/>
+    <line x1="48" y1="108" x2="108" y2="108" stroke="#0B2746" stroke-width="2.2"/>
+  </g>
+  <!-- Bioluminescent garden sprouts & peaceful pasture silhouettes -->
+  <g fill="#70C9E8" opacity="0.68">
+    <circle cx="192" cy="368" r="16"/><circle cx="212" cy="364" r="13"/><circle cx="176" cy="370" r="11"/>
+    <circle cx="290" cy="390" r="13"/><circle cx="308" cy="388" r="11"/>
+  </g>
+  <!-- Glowing fireflies & plankton motes -->
+  <g fill="#B9E8F5" opacity="0.75">
+    <circle cx="160" cy="180" r="3"/><circle cx="250" cy="240" r="2.5"/><circle cx="340" cy="160" r="3.5"/>
+    <circle cx="630" cy="210" r="3"/><circle cx="690" cy="280" r="2.5"/><circle cx="520" cy="145" r="2.8"/>
+  </g>
+</svg>

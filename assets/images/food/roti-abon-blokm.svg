@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#1C4E78"/>
+      <stop offset="55%" stop-color="#0B2746"/>
+      <stop offset="100%" stop-color="#051326"/>
+    </radialGradient>
+    <radialGradient id="warmGlow" cx="50%" cy="55%" r="42%">
+      <stop offset="0%" stop-color="#E8B870" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#E8B870" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#E8B870" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="loafCrust" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0C786"/>
+      <stop offset="48%" stop-color="#C98A42"/>
+      <stop offset="100%" stop-color="#7B4B1F"/>
+    </linearGradient>
+    <linearGradient id="floss" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E4A857"/>
+      <stop offset="50%" stop-color="#B0682A"/>
+      <stop offset="100%" stop-color="#6B3A16"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#70C9E8" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#warmGlow)"/>
+  <!-- Bakery arched glass frame -->
+  <path d="M130 460 V210 C130 95 250 48 400 48 C550 48 670 95 670 210 V460 Z" fill="url(#glass)" stroke="#70C9E8" stroke-opacity="0.32" stroke-width="2"/>
+  <!-- Shelf -->
+  <rect x="160" y="365" width="480" height="14" rx="7" fill="#123F67" stroke="#70C9E8" stroke-opacity="0.3"/>
+  <!-- Warm Roti Abon Loaf -->
+  <ellipse cx="400" cy="364" rx="165" ry="20" fill="#041022" opacity="0.65"/>
+  <path d="M238 355 C235 280 288 232 400 232 C512 232 565 280 562 355 Z" fill="url(#loafCrust)"/>
+  <!-- Savory abon topping cluster -->
+  <path d="M266 286 C290 245 340 222 400 222 C460 222 510 245 534 286 C500 302 452 292 400 302 C348 292 300 302 266 286 Z" fill="url(#floss)"/>
+  <g stroke="#F5D39A" stroke-width="2.2" stroke-linecap="round" opacity="0.72">
+    <path d="M300 264 q16 -10 34 -3"/><path d="M342 250 q22 -12 44 -4"/><path d="M394 246 q24 -8 46 2"/>
+    <path d="M446 254 q18 -8 38 4"/><path d="M320 278 q22 -6 46 0"/><path d="M382 274 q24 -8 50 0"/><path d="M444 276 q18 -6 38 3"/>
+  </g>
+  <!-- Rising steam ribbons & ocean bubbles -->
+  <g fill="none" stroke="#F4FBFF" stroke-width="2" stroke-linecap="round" opacity="0.32">
+    <path d="M340 205 C330 180 352 162 342 135"/>
+    <path d="M402 195 C390 168 415 148 402 118"/>
+    <path d="M462 208 C452 184 472 166 462 140"/>
+  </g>
+  <g fill="#B9E8F5" opacity="0.45">
+    <circle cx="196" cy="146" r="5"/><circle cx="604" cy="162" r="4"/><circle cx="220" cy="252" r="3"/><circle cx="585" cy="240" r="6"/>
+  </g>
+</svg>

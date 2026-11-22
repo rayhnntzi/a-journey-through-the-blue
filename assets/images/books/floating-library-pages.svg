@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#194B76"/>
+      <stop offset="56%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#051326"/>
+    </radialGradient>
+    <radialGradient id="pageGlow" cx="50%" cy="54%" r="36%">
+      <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#70C9E8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#pageGlow)"/>
+  <!-- Tall quiet library arch -->
+  <path d="M160 470 V190 C160 88 266 44 400 44 C534 44 640 88 640 190 V470" fill="none" stroke="#70C9E8" stroke-opacity="0.28" stroke-width="2"/>
+  <!-- Levitating open hardcover book -->
+  <g transform="translate(400,295)">
+    <path d="M-190 22 C-128 -2 -62 -2 0 28 C62 -2 128 -2 190 22 L176 58 C118 36 58 38 0 64 C-58 38 -118 36 -176 58 Z" fill="#123F67" stroke="#70C9E8" stroke-opacity="0.65" stroke-width="2"/>
+    <path d="M-178 14 C-118 -14 -58 -14 0 20 C58 -14 118 -14 178 14 L168 46 C112 22 56 24 0 50 C-56 24 -112 22 -168 46 Z" fill="#E6F5FC" opacity="0.92"/>
+    <line x1="0" y1="20" x2="0" y2="50" stroke="#246A9B" stroke-width="2.5"/>
+    <!-- Drifting pages rising gently into blue air -->
+    <path d="M-56 -54 Q-16 -72 18 -46 L8 -24 Q-22 -46 -64 -32 Z" fill="#F4FBFF" opacity="0.72"/>
+    <path d="M58 -92 Q96 -108 128 -84 L116 -64 Q86 -84 50 -70 Z" fill="#B9E8F5" opacity="0.62"/>
+    <path d="M-126 -108 Q-92 -122 -64 -98 L-74 -80 Q-100 -98 -134 -88 Z" fill="#B9E8F5" opacity="0.54"/>
+  </g>
+</svg>

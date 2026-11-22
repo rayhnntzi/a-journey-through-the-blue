@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="46%" r="72%">
+      <stop offset="0%" stop-color="#1A5484"/>
+      <stop offset="56%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#051326"/>
+    </radialGradient>
+    <radialGradient id="portalGlow" cx="50%" cy="46%" r="34%">
+      <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.58"/>
+      <stop offset="55%" stop-color="#70C9E8" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#123F67" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#portalGlow)"/>
+  <!-- Calm reflective water horizon -->
+  <rect x="0" y="370" width="800" height="130" fill="#061932" opacity="0.72"/>
+  <ellipse cx="400" cy="378" rx="190" ry="18" fill="#70C9E8" opacity="0.22"/>
+  <!-- Quiet Perpusat Circle Portal Arch -->
+  <circle cx="400" cy="230" r="136" fill="none" stroke="#70C9E8" stroke-opacity="0.72" stroke-width="3"/>
+  <circle cx="400" cy="230" r="114" fill="none" stroke="#B9E8F5" stroke-opacity="0.5" stroke-width="1.5" stroke-dasharray="10 8"/>
+  <circle cx="400" cy="230" r="90" fill="#0B2E52" fill-opacity="0.65" stroke="#F4FBFF" stroke-opacity="0.35"/>
+  <!-- Stylized open book & quiet lantern silhouette inside portal -->
+  <path d="M352 252 Q376 238 400 252 Q424 238 448 252 V216 Q424 202 400 216 Q376 202 352 216 Z" fill="#B9E8F5" opacity="0.78"/>
+  <line x1="400" y1="216" x2="400" y2="252" stroke="#071C36" stroke-width="2"/>
+  <g fill="#F4FBFF" opacity="0.55">
+    <circle cx="240" cy="140" r="3.5"/><circle cx="570" cy="160" r="4"/><circle cx="280" cy="310" r="3"/><circle cx="535" cy="296" r="3.5"/>
+  </g>
+</svg>

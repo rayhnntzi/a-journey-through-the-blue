@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071C36"/>
+      <stop offset="35%" stop-color="#0A2540"/>
+      <stop offset="70%" stop-color="#123F67"/>
+      <stop offset="100%" stop-color="#246A9B"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <!-- Five overlapping tonal blue water-glass discs representing the signature blue palette -->
+  <circle cx="180" cy="250" r="115" fill="#071C36" fill-opacity="0.82" stroke="#70C9E8" stroke-opacity="0.3"/>
+  <circle cx="290" cy="250" r="115" fill="#123F67" fill-opacity="0.82" stroke="#70C9E8" stroke-opacity="0.38"/>
+  <circle cx="400" cy="250" r="115" fill="#246A9B" fill-opacity="0.82" stroke="#B9E8F5" stroke-opacity="0.48"/>
+  <circle cx="510" cy="250" r="115" fill="#70C9E8" fill-opacity="0.72" stroke="#F4FBFF" stroke-opacity="0.58"/>
+  <circle cx="620" cy="250" r="115" fill="#B9E8F5" fill-opacity="0.76" stroke="#F4FBFF" stroke-opacity="0.78"/>
+</svg>
