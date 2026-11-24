@@ -2,673 +2,374 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A Journey Through The Blue: an interactive 3D underwater birthday adventure guided by The Blue Whale." />
-  <title>A JOURNEY THROUGH THE BLUE</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Happy 23rd Birthday, Ulil Azmi!</title>
+  <meta name="description" content="An interactive 3D 23rd birthday experience for Ulil Azmi guided by a blue whale." />
   <link rel="icon" type="image/svg+xml" href="assets/icons/whale-favicon.svg" />
-
-  <!-- Modular Design System (San Francisco Typography, Deep Ocean Editorial + Adventure Trail) -->
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/animations.css" />
   <link rel="stylesheet" href="css/responsive.css" />
 </head>
-<body data-scene="gate" data-dimension="gate">
+<body>
   <a href="#stage" class="skip-link">Skip to main content</a>
 
-  <!-- ========================================================================
-       LAYER 0: PERSISTENT 3D UNDERWATER WORLD & ATMOSPHERE
-       ======================================================================== -->
-  <div class="ocean-backdrop-stack" aria-hidden="true">
-    <img
-      id="hero-ocean-img"
-      src="assets/images/fantasy/ocean-whale-realm.jpg"
-      width="1600"
-      height="900"
-      fetchpriority="high"
-      decoding="async"
-      alt=""
-      class="hero-backdrop-img"
-    />
-
-    <canvas id="ocean-canvas"></canvas>
-
-    <!-- Fallback Ocean & Articulated SVG Whale for Calm / Lite / No-WebGL -->
-    <div id="fallback-ocean" class="fallback-ocean">
-      <div class="fallback-rays"></div>
-      <button type="button" class="fallback-whale-wrap" id="fallback-whale" aria-label="Interact with The Blue Whale Guide">
-        <svg viewBox="0 0 360 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="fallback-whale-svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="fwGrad" x1="20" y1="30" x2="340" y2="120" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#9BE0F5" stop-opacity="0.92" />
-              <stop offset="48%" stop-color="#246A9B" stop-opacity="0.88" />
-              <stop offset="100%" stop-color="#0A2540" stop-opacity="0.92" />
-            </linearGradient>
-            <linearGradient id="fwBelly" x1="30" y1="88" x2="210" y2="112" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.7" />
-              <stop offset="100%" stop-color="#70C9E8" stop-opacity="0.15" />
-            </linearGradient>
-          </defs>
-          <path
-            class="fw-body"
-            d="M28 76C26 52 72 34 148 38C210 41 255 60 292 73C312 58 332 45 348 44C342 60 330 71 314 78C332 86 344 98 349 112C330 110 310 99 290 88C252 103 196 112 132 110C68 108 30 96 28 76Z"
-            fill="url(#fwGrad)"
-          />
-          <path d="M46 84C78 99 138 106 196 97C152 102 90 96 46 84Z" fill="url(#fwBelly)" />
-          <path class="fw-fin" d="M134 90C118 112 106 128 112 134C122 136 146 118 164 98Z" fill="#1A5582" opacity="0.9" />
-          <path d="M214 44C224 34 234 33 238 47Z" fill="#1D5C8A" opacity="0.85" />
-          <circle cx="72" cy="72" r="3.2" fill="#071C36" />
-          <circle cx="71" cy="71" r="1.1" fill="#F4FBFF" />
-        </svg>
-      </button>
-    </div>
-
-    <div id="dimension-backdrop" class="dimension-backdrop"></div>
-    <div class="caustic-rays"></div>
-    <div class="depth-vignette"></div>
-    <div id="ambient-bubbles" class="ambient-bubbles"></div>
+  <!-- ======================================================================
+       FULL-VIEWPORT 3D DAYLIGHT STORYBOOK WORLD (Three.js)
+       Sunlit 3D clouds, coastal hills, lighthouse, cottage, waves & Blue Whale
+       ====================================================================== -->
+  <div class="world-3d-wrap" aria-hidden="true">
+    <canvas id="world-3d-canvas"></canvas>
   </div>
 
-  <!-- ========================================================================
-       LAYER 1: TIDEGUARD / OCEARCH EDITORIAL TOP BAR (With Signature Whale Mark)
-       ======================================================================== -->
-  <header id="ocean-hud" class="ocean-hud is-hidden" aria-label="Ocean Journey Navigation">
-    <div class="hud-left">
-      <button type="button" id="hud-brand-btn" class="hud-brand" aria-label="Return to Ocean Map">
-        <span class="hud-brand-mark" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2.5 13c0-4 3.8-6 8.8-6 3.8 0 6.3 1.9 7.8 3.9 1.1-1 2.1-2.1 2.9-2.4-.5 1.7-1.4 2.9-2.4 3.6 1.1.8 1.9 1.9 2.1 3.2-1.5-.2-2.7-1.1-3.5-2.1-2.1 1.7-5.3 2.6-8.9 2.6-4.1 0-6.8-1.1-6.8-2.8z" />
-            <circle cx="7.6" cy="12" r="0.9" fill="currentColor" />
-          </svg>
-        </span>
-        <span class="hud-brand-text">THE BLUE</span>
-      </button>
-
-      <button
-        type="button"
-        id="hud-back-map"
-        class="hud-pill hud-back-btn is-hidden"
-        aria-label="Return to Ocean Map"
-      >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M19 12H5" /><path d="M12 19l-7-7 7-7" />
-        </svg>
-        <span>Map</span>
-      </button>
-    </div>
-
-    <!-- Center Editorial Realm Links (Desktop; collapses to labeled Menu drawer on narrow viewports) -->
-    <nav class="hud-nav" aria-label="Primary Ocean Destinations">
-      <button type="button" class="hud-nav-link" data-hud-scene="welcome">Home</button>
-      <button type="button" class="hud-nav-link" data-hud-scene="map">Adventure Map</button>
-      <button type="button" class="hud-nav-link" data-hud-chapter="jakarta">Jakarta</button>
-      <button type="button" class="hud-nav-link" data-hud-scene="memories">Memories</button>
-      <button type="button" class="hud-nav-link" data-hud-scene="wishes">Wishes</button>
-      <button type="button" class="hud-nav-link" data-hud-scene="letter">Letter</button>
-    </nav>
-
-    <div class="hud-right">
-      <button
-        type="button"
-        id="hud-progress-pill"
-        class="hud-pill hud-progress-pill"
-        title="Open All 15 Realms Directory"
-      >
-        <span id="hud-progress-text">0/15</span>
-      </button>
-
-      <button
-        type="button"
-        id="hud-whale-btn"
-        class="hud-pill hud-whale-btn"
-        title="Summon The Blue Whale Guide"
-        aria-label="Interact with The Blue Whale Guide"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 13c0-4 4-6 9-6 4 0 6.5 2 8 4 1.2-1 2.2-2.2 3-2.5-.5 1.8-1.4 3-2.5 3.7 1.2.8 2 2 2.2 3.3-1.6-.2-2.8-1.1-3.7-2.2-2.2 1.8-5.5 2.7-9.2 2.7-4.2 0-6.8-1.2-6.8-3z" />
-          <circle cx="8" cy="12" r="0.9" fill="currentColor" />
-        </svg>
-        <span class="hud-label-desktop">Whale</span>
-      </button>
-
-      <div class="hud-audio-group">
-        <button
-          type="button"
-          id="hud-audio-toggle"
-          class="hud-icon-btn"
-          aria-label="Toggle Underwater Audio"
-          aria-pressed="false"
-          title="Toggle Underwater Soundscape"
-        >
-          <span id="audio-icon-glyph" aria-hidden="true">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              <line x1="23" y1="9" x2="17" y2="15" />
-              <line x1="17" y1="9" x2="23" y2="15" />
-            </svg>
-          </span>
-        </button>
-        <label class="hud-volume-wrap">
-          <span class="sr-only">Audio Volume</span>
-          <input type="range" id="hud-volume-slider" min="0" max="1" step="0.02" value="0.42" />
-        </label>
+  <!-- ======================================================================
+       MINIMAL FLOATING WHITE PILL HEADER (Zero Icons, Strict 5-Step Sequence)
+       ====================================================================== -->
+  <header id="top-pill-bar" class="top-pill-bar" role="banner">
+    <div class="pill-bar-inner">
+      <div class="brand-cluster">
+        <span class="brand-orb" aria-hidden="true">23</span>
+        <span class="brand-name">Ulil Azmi</span>
       </div>
 
-      <button
-        type="button"
-        id="hud-perf-toggle"
-        class="hud-icon-btn"
-        title="Pause 3D motion or switch to Calm Mode"
-        aria-label="Pause or resume 3D ocean motion"
-        aria-pressed="false"
-      >
-        <span id="perf-icon-glyph" aria-hidden="true">3D</span>
-      </button>
+      <!-- 5-Step Mandatory Sequential Stepper (Future steps locked) -->
+      <nav class="step-tracker" aria-label="Birthday sequence steps">
+        <button type="button" class="step-dot is-current" data-step-nav="1" aria-current="step">
+          <span class="step-num">01</span>
+          <span class="step-label">Gate</span>
+        </button>
+        <span class="step-connector" aria-hidden="true"></span>
+        <button type="button" class="step-dot is-locked" data-step-nav="2" disabled>
+          <span class="step-num">02</span>
+          <span class="step-label">Birthday</span>
+        </button>
+        <span class="step-connector" aria-hidden="true"></span>
+        <button type="button" class="step-dot is-locked" data-step-nav="3" disabled>
+          <span class="step-num">03</span>
+          <span class="step-label">14 Things</span>
+        </button>
+        <span class="step-connector" aria-hidden="true"></span>
+        <button type="button" class="step-dot is-locked" data-step-nav="4" disabled>
+          <span class="step-num">04</span>
+          <span class="step-label">Wish Jar</span>
+        </button>
+        <span class="step-connector" aria-hidden="true"></span>
+        <button type="button" class="step-dot is-locked" data-step-nav="5" disabled>
+          <span class="step-num">05</span>
+          <span class="step-label">Letter</span>
+        </button>
+      </nav>
 
-      <button
-        type="button"
-        id="hud-mobile-menu"
-        class="hud-pill hud-mobile-menu-btn"
-        aria-expanded="false"
-        aria-controls="map-index-drawer"
-      >
-        <span>Menu</span>
-      </button>
+      <!-- Minimal Text-Only Controls (Zero Icons) -->
+      <div class="bar-utils">
+        <button type="button" id="audio-toggle-btn" class="util-pill-btn" aria-pressed="true">
+          <span id="audio-toggle-text">Sound</span>
+        </button>
+        <button type="button" id="motion-toggle-btn" class="util-pill-btn" aria-pressed="false">
+          <span id="motion-toggle-text">3D On</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Floating Blue Whale Whisper Toast -->
-  <aside id="whale-toast" class="whale-toast" role="status" aria-live="polite" aria-hidden="true">
-    <span class="whale-toast-speaker">The Blue Whale Guide</span>
-    <p id="whale-toast-text" class="whale-toast-text"></p>
-  </aside>
-
-  <!-- ========================================================================
-       LAYER 2: MAIN INTERACTIVE STAGE
-       ======================================================================== -->
+  <!-- ======================================================================
+       MAIN SEQUENTIAL STAGE (5 MANDATORY STEPS)
+       ====================================================================== -->
   <main id="stage" class="stage" tabindex="-1">
-    <!-- ----------------------------------------------------------------------
-         SCENE 01 : THE SECRET GATE (Monumental Abyssal Entry)
-         ---------------------------------------------------------------------- -->
-    <section id="scene-gate" class="scene scene-gate is-active" aria-labelledby="gate-heading">
-      <div class="gate-watermark" aria-hidden="true">OCEAN</div>
 
-      <div class="gate-portal-frame">
-        <div class="portal-ring portal-ring-outer" aria-hidden="true"></div>
-        <div class="portal-ring portal-ring-mid" aria-hidden="true"></div>
-        <div class="portal-core-glow" aria-hidden="true"></div>
+    <!-- PERSISTENT IN-FLOW BLUE WHALE GUIDE BANNER (Zero Icons, Zero Overlap) -->
+    <aside id="whale-companion" class="whale-companion" aria-label="Blue Whale Guide">
+      <button type="button" id="whale-guide-strip" class="whale-guide-strip" aria-label="Tap to call the 3D Blue Whale Guide for a tip">
+        <span class="whale-tag-pill">BLUE WHALE GUIDE</span>
+        <span id="whale-speech-text" class="whale-speech-text" role="status" aria-live="polite"></span>
+      </button>
+    </aside>
 
-        <div class="gate-content">
-          <div class="gate-whale-emblem" aria-hidden="true">
-            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2.5 13c0-4 3.8-6 8.8-6 3.8 0 6.3 1.9 7.8 3.9 1.1-1 2.1-2.1 2.9-2.4-.5 1.7-1.4 2.9-2.4 3.6 1.1.8 1.9 1.9 2.1 3.2-1.5-.2-2.7-1.1-3.5-2.1-2.1 1.7-5.3 2.6-8.9 2.6-4.1 0-6.8-1.1-6.8-2.8z" />
-              <circle cx="7.6" cy="12" r="0.9" fill="currentColor" />
-            </svg>
+    <!-- ====================================================================
+         STEP 1: PASSCODE GATE
+         ==================================================================== -->
+    <section id="step-1" class="story-step is-active" aria-labelledby="passcode-heading">
+      <div class="hero-two-col">
+        <div class="hero-copy-col">
+          <div class="eyebrow-pill">
+            <span id="passcode-eyebrow">23RD BIRTHDAY GIFT</span>
           </div>
-          <h1 id="gate-heading" class="gate-title">A Journey Through The Blue</h1>
-          <p id="gate-intro-text" class="gate-intro">
-            Before you enter this little ocean, I need to make sure it's really you.
-          </p>
 
-          <form id="gate-form" class="gate-form" novalidate>
-            <label for="gate-answer-input" id="gate-question-label" class="gate-question">
-              What color is this entire little ocean made of?
-            </label>
-            <div class="gate-input-row">
+          <h1 id="passcode-heading" class="hero-title">
+            One small <span class="accent-warm">passcode</span> before we <span class="accent-blue">begin!</span>
+          </h1>
+
+          <p id="passcode-subtitle" class="hero-subtitle"></p>
+
+          <form id="passcode-form" class="passcode-card surface-3d" autocomplete="off" novalidate>
+            <label for="passcode-input" class="passcode-label">Enter Passcode</label>
+            <div class="passcode-input-row">
               <input
                 type="text"
-                id="gate-answer-input"
-                class="gate-input"
+                id="passcode-input"
+                class="passcode-input"
+                placeholder="Type the passcode..."
                 autocomplete="off"
                 spellcheck="false"
-                placeholder="Type your answer..."
-                aria-describedby="gate-feedback"
                 required
               />
-              <button type="submit" id="gate-unlock-btn" class="btn-ocean-primary">
-                <span>Unlock the Ocean</span>
+              <button type="submit" id="passcode-submit-btn" class="btn-3d btn-warm">
+                <span>Open the Gate</span>
               </button>
             </div>
-            <p id="gate-feedback" class="gate-feedback" role="alert" aria-live="assertive"></p>
+            <p id="passcode-hint" class="passcode-hint"></p>
+            <p id="passcode-feedback" class="passcode-feedback" role="alert" aria-live="polite"></p>
           </form>
         </div>
-      </div>
-    </section>
 
-    <!-- ----------------------------------------------------------------------
-         SCENE 02 : SOMEWHERE BEYOND THE BLUE (TideGuard + OCEARCH Hero)
-         ---------------------------------------------------------------------- -->
-    <section id="scene-welcome" class="scene scene-welcome" aria-labelledby="welcome-heading" hidden>
-      <!-- Full-Viewport Monumental Hero inspired by TideGuard -->
-      <div class="welcome-hero-canvas">
-        <div class="hero-monumental-word" aria-hidden="true">THE BLUE</div>
-
-        <div class="welcome-hero-grid">
-          <div class="welcome-whale-stage">
-            <img
-              src="assets/images/fantasy/ocean-whale-realm.jpg"
-              width="800"
-              height="450"
-              alt="Blue whale gliding beneath shafts of ocean light"
-              class="welcome-whale-vignette"
-            />
-          </div>
-
-          <div class="welcome-copy-col">
-            <p class="scene-meta-line welcome-stagger" id="welcome-date-badge">Happy Birthday</p>
-            <h2 id="welcome-heading" class="welcome-title welcome-stagger">
-              Somewhere Beyond <span class="title-accent">the Blue.</span>
-            </h2>
-            <p id="welcome-subtitle" class="welcome-subtitle welcome-stagger">
-              A little journey, made just for you.
-            </p>
-            <p id="welcome-tagline" class="welcome-tagline handwritten welcome-stagger">
-              "A little world made from everything that makes you, you."
-            </p>
-
-            <div class="welcome-cta-row welcome-stagger">
-              <button type="button" id="start-journey-btn" class="btn-ocean-primary btn-lg">
-                <span>Start Our Journey</span>
-              </button>
-              <button type="button" id="welcome-open-tracker" class="btn-ocean-ghost btn-lg">
-                <span>Open 3D Tracker</span>
-              </button>
+        <div class="hero-visual-col">
+          <div id="portal-3d-frame" class="viewport-3d-card surface-3d">
+            <div class="viewport-3d-top">
+              <span class="chip-soft">Step 01 of 05</span>
+              <span class="chip-hint">Drag to rotate 3D whale</span>
             </div>
+            <div id="portal-3d-slot" class="prop-3d-slot"></div>
+            <p class="viewport-3d-caption">Your 3D blue whale guide holds the golden key</p>
           </div>
-        </div>
-
-        <!-- Live Real Telemetry Strip (100% Real Data from birthdayConfig & Progress) -->
-        <div class="telemetry-strip welcome-stagger" aria-label="Journey Contents Overview">
-          <div class="telemetry-cell">
-            <span class="telemetry-value" id="welcome-stat-realms">15</span>
-            <span class="telemetry-label">Personal Realms</span>
-          </div>
-          <div class="telemetry-cell">
-            <span class="telemetry-value accent-cobalt" id="welcome-stat-discovered">0/15</span>
-            <span class="telemetry-label">Discovered</span>
-          </div>
-          <div class="telemetry-cell">
-            <span class="telemetry-value accent-cyan" id="welcome-stat-memories">16</span>
-            <span class="telemetry-label">Little Memories</span>
-          </div>
-          <div class="telemetry-cell">
-            <span class="telemetry-value accent-amber" id="welcome-stat-wishes">6</span>
-            <span class="telemetry-label">Birthday Wishes</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Below-the-Fold 50/50 Editorial Split Showcase (Inspired by TideGuard & Storybook) -->
-      <div class="welcome-editorial-split">
-        <div class="editorial-media-card">
-          <img
-            src="assets/images/fantasy/coral-beach-realm.jpg"
-            width="800"
-            height="600"
-            loading="lazy"
-            alt="Sunlit sapphire coral reef beneath gentle waves"
-          />
-          <div class="editorial-media-overlay">
-            <div class="editorial-overlay-top">
-              <span class="overlay-kicker">Active Expedition</span>
-              <span class="overlay-status-tag" id="welcome-overlay-pct">0% Explored</span>
-            </div>
-            <strong class="overlay-title">A Journey Through The Blue</strong>
-            <div class="overlay-bar-track" aria-hidden="true">
-              <div class="overlay-bar-fill" id="welcome-overlay-fill"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="editorial-text-col">
-          <p class="scene-meta-line">Inside This Ocean</p>
-          <h3 class="editorial-heading">An ocean built from your favorite corners, not generic wishes.</h3>
-          <p class="editorial-lead">
-            Follow the winding underwater trail alongside The Blue Whale Guide, open any chapter in any order, uncover quiet notes tucked inside every destination, and rise toward the final tide whenever you feel ready.
-          </p>
-
-          <ul class="editorial-pillars">
-            <li>
-              <span class="pillar-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 13c0-4 3.8-6 8.8-6 3.8 0 6.3 1.9 7.8 3.9 1.1-1 2.1-2.1 2.9-2.4-.5 1.7-1.4 2.9-2.4 3.6 1.1.8 1.9 1.9 2.1 3.2-1.5-.2-2.7-1.1-3.5-2.1-2.1 1.7-5.3 2.6-8.9 2.6-4.1 0-6.8-1.1-6.8-2.8z"/></svg>
-              </span>
-              <div>
-                <strong>Guided by The Blue Whale</strong>
-                <p>Swims with you from the Jakarta skyline to Kaliurang mist. Click the whale anytime for a quiet hint.</p>
-              </div>
-            </li>
-            <li>
-              <span class="pillar-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-              </span>
-              <div>
-                <strong>Two Ways to Explore</strong>
-                <p>Walk the illustrated winding Adventure Trail or pan the live 3D Ocean Tracker console at your own pace.</p>
-              </div>
-            </li>
-            <li>
-              <span class="pillar-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
-              </span>
-              <div>
-                <strong>Keepsakes Waiting Beneath</strong>
-                <p>Sixteen polaroid memories, six seabed envelopes, a six-star constellation, and a letter sealed in glass.</p>
-              </div>
-            </li>
-          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ----------------------------------------------------------------------
-         SCENE 03 : THE OCEAN MAP (Dual Mode: Adventure Trail + 3D Tracker)
-         ---------------------------------------------------------------------- -->
-    <section id="scene-map" class="scene scene-map" aria-labelledby="map-heading" hidden>
-      <!-- Shared Map Control Header -->
-      <div class="map-top-bar">
-        <div class="map-title-block">
-          <p class="scene-meta-line">Hybrid Underwater Atlas</p>
-          <h2 id="map-heading" class="map-heading">Chart of Little Realms</h2>
-        </div>
+    <!-- ====================================================================
+         STEP 2: ULIL AZMI'S REAL PHOTOS & 23RD BIRTHDAY GREETING
+         ==================================================================== -->
+    <section id="step-2" class="story-step" aria-labelledby="birthday-heading" hidden>
+      <div class="hero-two-col">
+        <div class="hero-copy-col">
+          <div class="eyebrow-pill eyebrow-green">
+            <span id="birthday-eyebrow">HAPPY 23RD BIRTHDAY</span>
+          </div>
 
-        <div class="map-mode-and-progress">
-          <div class="map-mode-tabs" role="tablist" aria-label="Ocean Map View Mode">
-            <button
-              type="button"
-              role="tab"
-              id="tab-map-trail"
-              class="map-tab-btn is-active"
-              aria-selected="true"
-              aria-controls="map-trail-view"
-              data-map-view="trail"
-            >
-              Adventure Trail
-            </button>
-            <button
-              type="button"
-              role="tab"
-              id="tab-map-tracker"
-              class="map-tab-btn"
-              aria-selected="false"
-              aria-controls="map-tracker-view"
-              data-map-view="tracker"
-            >
-              3D Ocean Tracker
+          <h1 id="birthday-heading" class="hero-title">
+            Happy <span class="accent-warm">23rd</span> Birthday,<br />
+            <span class="accent-green">Kak Ulil Azmi!</span>
+          </h1>
+
+          <p id="birthday-subtitle" class="hero-subtitle"></p>
+
+          <div class="progress-panel surface-3d">
+            <div class="progress-meta-row">
+              <span id="photo-progress-label" class="progress-meta-text">Photos viewed: 1 / 6</span>
+              <span class="chip-soft">Tap photo card to flip in 3D</span>
+            </div>
+            <div class="mini-progress-track">
+              <div id="photo-progress-fill" class="mini-progress-fill" style="width: 16.6%"></div>
+            </div>
+          </div>
+
+          <div class="step-action-row">
+            <button type="button" id="to-step-3-btn" class="btn-3d btn-green" disabled>
+              <span id="to-step-3-text">View all 6 photos first (1/6)</span>
             </button>
           </div>
-
-          <div class="map-progress-card">
-            <div class="map-progress-meta">
-              <span id="map-progress-label">0 of 15 destinations discovered.</span>
-              <span id="map-progress-percent" class="map-progress-pct">0%</span>
-            </div>
-            <div class="map-progress-track" role="progressbar" aria-label="Ocean discovery progress" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="map-progressbar">
-              <div id="map-progress-fill" class="map-progress-fill"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW A: ALI HANZA-INSPIRED WINDING UNDERWATER ADVENTURE TRAIL (Default) -->
-      <div id="map-trail-view" class="map-trail-view" role="tabpanel" aria-labelledby="tab-map-trail">
-        <div class="trail-intro-banner">
-          <p>Follow the stepping stones downward through all 15 realms, or jump straight into any level in any order.</p>
         </div>
 
-        <!-- Dynamically populated winding left/right portals + stepping stones -->
-        <div id="adventure-trail-nodes" class="adventure-trail-nodes"></div>
-
-        <!-- OCEARCH-Inspired Monumental Depth Interlude (Real Counts) -->
-        <div class="depth-interlude-band">
-          <div class="depth-interlude-grid">
-            <div class="depth-stat">
-              <span class="depth-num" id="interlude-realms">15</span>
-              <span class="depth-caption">Underwater Realms</span>
-            </div>
-            <div class="depth-stat">
-              <span class="depth-num" id="interlude-memories">16</span>
-              <span class="depth-caption">Scrapbook Keepsakes</span>
-            </div>
-            <div class="depth-stat">
-              <span class="depth-num" id="interlude-envelopes">6</span>
-              <span class="depth-caption">Seabed Envelopes</span>
-            </div>
-            <div class="depth-stat">
-              <span class="depth-num" id="interlude-wishes">6</span>
-              <span class="depth-caption">Constellation Stars</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reference 1 Inspired Folded "The Adventure Map" Story Finale Bar -->
-        <section class="folded-adventure-map" aria-label="Culminating Story Milestones">
-          <div class="folded-map-inner">
-            <p class="folded-map-title">The Story Map</p>
-            <div class="folded-map-steps">
-              <button type="button" class="folded-step" data-goto="memories">
-                <span class="folded-pin pin-blue" aria-hidden="true">01</span>
-                <strong>Little Things</strong>
-                <span>16 Scrapbook Cards</span>
-              </button>
-              <button type="button" class="folded-step" data-goto="forgotten">
-                <span class="folded-pin pin-cyan" aria-hidden="true">02</span>
-                <strong>Envelopes</strong>
-                <span>6 Seabed Notes</span>
-              </button>
-              <button type="button" class="folded-step is-highlight" data-goto="wishes">
-                <span class="folded-pin pin-amber" aria-hidden="true">03</span>
-                <strong>Six Wishes</strong>
-                <span>Star Constellation</span>
-              </button>
-              <button type="button" class="folded-step" data-goto="letter">
-                <span class="folded-pin pin-cobalt" aria-hidden="true">04</span>
-                <strong>Ocean Letter</strong>
-                <span>Glass Bottle Scroll</span>
-              </button>
-              <button type="button" class="folded-step" data-goto="ending">
-                <span class="folded-pin pin-ice" aria-hidden="true">05</span>
-                <strong>Next Tide</strong>
-                <span>Final Surface Ascent</span>
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- VIEW B: OCEARCH-INSPIRED FRAMED 3D OCEAN TRACKER CONSOLE -->
-      <div id="map-tracker-view" class="map-tracker-view" role="tabpanel" aria-labelledby="tab-map-tracker" hidden>
-        <div class="tracker-console">
-          <aside class="tracker-sidebar" aria-label="Tracked Underwater Destinations">
-            <div class="tracker-sidebar-head">
-              <strong>Tracked Realms (15)</strong>
-              <button type="button" id="map-reset-camera" class="tracker-recenter-btn">Recenter 3D</button>
-            </div>
-            <div id="tracker-realm-list" class="tracker-realm-list"></div>
-          </aside>
-
-          <div class="tracker-viewport">
-            <div class="tracker-drag-hint">Drag to orbit the 3D ocean floor or select any beacon</div>
-            <!-- Live 3D Projected Markers Layer -->
-            <div id="map-markers-layer" class="map-markers-layer" role="region" aria-label="3D Ocean Beacons"></div>
-
-            <!-- OCEARCH High-Contrast Floating Destination Popover Card -->
-            <aside id="map-preview-card" class="map-preview-card" aria-hidden="true">
-              <button type="button" id="map-preview-close" class="preview-close-btn" aria-label="Close destination preview">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-              <div class="preview-thumb-row">
-                <img id="preview-thumb" src="assets/images/fantasy/jakarta-underwater.jpg" width="96" height="64" alt="" class="preview-thumb-img" />
-                <div class="preview-head-meta">
-                  <span id="preview-number" class="preview-number">Level 00</span>
-                  <span id="preview-status" class="preview-status">Unexplored</span>
-                  <h3 id="preview-title" class="preview-title">Destination Title</h3>
-                  <span id="preview-zone" class="preview-zone">The Sunken Metropolis</span>
-                </div>
+        <!-- Real 3D Tilting Interactive Photo Deck -->
+        <div class="hero-visual-col">
+          <div class="photo-deck-perspective">
+            <div class="photo-deck-layer-back" aria-hidden="true"></div>
+            <button type="button" id="birthday-photo-deck" class="photo-deck-card surface-3d" aria-label="Tap to flip to the next photo of Ulil Azmi">
+              <div class="photo-deck-topbar">
+                <span class="chip-green">Year 23</span>
+                <span id="photo-deck-counter" class="chip-warm">1 / 6</span>
               </div>
-              <p id="preview-desc" class="preview-desc"></p>
-              <div class="preview-actions">
-                <button type="button" id="preview-explore-btn" class="btn-ocean-primary">
-                  <span>Enter This Chapter</span>
-                </button>
+              <div class="photo-frame-wrap">
+                <img id="birthday-photo-img" src="assets/images/ulil/ulil-01.jpg" width="608" height="760" alt="Ulil Azmi portrait" />
               </div>
-            </aside>
+              <div class="photo-deck-caption-area">
+                <span id="birthday-photo-tag" class="photo-tag-line">Hutan Kota, Jakarta</span>
+                <p id="birthday-photo-caption" class="photo-caption-line"></p>
+                <span class="photo-tap-cue">Tap this 3D card for the next photo</span>
+              </div>
+            </button>
           </div>
         </div>
-
-        <!-- Bottom Story Currents Bar inside Tracker Mode -->
-        <nav class="tracker-story-bar" aria-label="Deep Story Realms">
-          <button type="button" class="current-beacon" data-goto="memories">Little Things</button>
-          <button type="button" class="current-beacon" data-goto="forgotten">Hidden Envelopes</button>
-          <button type="button" class="current-beacon" data-goto="wishes">Six Wishes</button>
-          <button type="button" class="current-beacon" data-goto="letter">Ocean Letter</button>
-          <button type="button" class="current-beacon current-beacon-finale" data-goto="ending">Until the Next Tide</button>
-        </nav>
       </div>
     </section>
 
-    <!-- SCENE 04 + CHAPTERS 01 TO 14 : DYNAMIC DIMENSIONAL STAGE -->
-    <section id="scene-chapter" class="scene scene-chapter" aria-live="polite" hidden>
-      <div id="chapter-mount" class="chapter-mount"></div>
+    <!-- ====================================================================
+         STEP 3: 14 THINGS THAT REMIND ME OF YOU (CUSTOM 3D MODEL EACH!)
+         ==================================================================== -->
+    <section id="step-3" class="story-step" aria-labelledby="things-heading" hidden>
+      <div class="step-centered-head">
+        <div class="eyebrow-pill eyebrow-blue">
+          <span id="things-eyebrow">THINGS THAT REMIND ME OF YOU</span>
+        </div>
+        <h2 id="things-heading" class="section-title">
+          14 Little Things That <span class="accent-blue">Remind Me</span> of You
+        </h2>
+        <p id="things-subtitle" class="section-subtitle"></p>
+
+        <div class="things-meter-pill surface-3d">
+          <span id="things-count-text" class="meter-label">0 / 14 opened</span>
+          <div class="mini-progress-track meter-track-inline">
+            <div id="things-progress-fill" class="mini-progress-fill fill-blue" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clean Typographic Story Card (No Object Graphic) -->
+      <div id="thing-spotlight" class="thing-spotlight-card surface-3d" aria-live="polite">
+        <span id="spotlight-kicker" class="spotlight-kicker">Pick any of the 14 items below</span>
+        <h3 id="spotlight-title" class="spotlight-title">Tap an item to read its note</h3>
+        <p id="spotlight-note" class="spotlight-note">Each tile holds a short note on why it reminds me of Ulil Azmi.</p>
+      </div>
+
+      <!-- Icon-Free 3D Tactile Pill Board (All 14 Items) -->
+      <div id="things-grid" class="things-pill-grid" role="list" aria-label="14 things that remind me of Ulil Azmi"></div>
+
+      <div class="step-footer-action">
+        <button type="button" id="to-step-4-btn" class="btn-3d btn-warm" disabled>
+          <span id="to-step-4-text">Open all 14 items first (0/14)</span>
+        </button>
+      </div>
     </section>
 
-    <!-- SCENE 06 : LITTLE THINGS I REMEMBER ABOUT YOU -->
-    <section id="scene-memories" class="scene scene-memories" aria-labelledby="memories-heading" hidden>
-      <div id="memories-mount" class="story-realm-mount"></div>
+    <!-- ====================================================================
+         STEP 4: REAL 3D SHAKEABLE JAR OF WISHES & HOPES
+         ==================================================================== -->
+    <section id="step-4" class="story-step" aria-labelledby="jar-heading" hidden>
+      <div class="step-centered-head">
+        <div class="eyebrow-pill">
+          <span id="jar-eyebrow">3D JAR OF WISHES &amp; HOPES</span>
+        </div>
+        <h2 id="jar-heading" class="section-title">
+          Shake the <span class="accent-warm">3D Wish Jar</span> for Year 23
+        </h2>
+      </div>
+
+      <div class="jar-interactive-layout">
+        <!-- Left: Real 3D Three.js Glass Jar with 6 Origami Stars -->
+        <div class="jar-stage-col">
+          <div id="jar-interactive-zone" class="jar-3d-zone surface-3d" tabindex="0" role="button" aria-label="Shake or tap the 3D Wish Jar to pop out a birthday wish">
+            <span class="chip-soft">Tap or drag left-right to shake the 3D jar</span>
+            <div id="jar-3d-slot" class="prop-3d-slot prop-3d-jar"></div>
+          </div>
+
+          <button type="button" id="shake-jar-btn" class="btn-3d btn-blue">
+            <span id="shake-jar-label">Shake the Jar (0 / 6)</span>
+          </button>
+        </div>
+
+        <!-- Right: Active Wish Card + Collected Tray -->
+        <div class="jar-wish-col">
+          <div id="active-wish-card" class="active-wish-card surface-3d" aria-live="polite">
+            <span id="wish-card-tag" class="wish-card-tag">Ready to shake</span>
+            <h3 id="wish-card-title" class="wish-card-title">Shake the 3D jar to release your first wish</h3>
+            <p id="wish-card-body" class="wish-card-body">Each shake pops the cork and sends out one 3D star carrying a wish for your 23rd year.</p>
+          </div>
+
+          <div class="collected-wishes-wrap surface-3d">
+            <div class="collected-head">
+              <span class="collected-label">Collected Wishes</span>
+              <span id="wishes-count-badge" class="chip-green">0 / 6</span>
+            </div>
+            <div id="collected-wishes-list" class="collected-wishes-list" aria-label="Wishes released from the jar"></div>
+          </div>
+
+          <div class="step-action-row">
+            <button type="button" id="to-step-5-btn" class="btn-3d btn-green" disabled>
+              <span id="to-step-5-text">Collect all 6 wishes first (0/6)</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- SCENE 07 : THINGS YOU MIGHT HAVE FORGOTTEN -->
-    <section id="scene-forgotten" class="scene scene-forgotten" aria-labelledby="forgotten-heading" hidden>
-      <div id="forgotten-mount" class="story-realm-mount"></div>
+    <!-- ====================================================================
+         STEP 5: MAIN 23RD BIRTHDAY LETTER (REAL 3D SEALED ENVELOPE!)
+         ==================================================================== -->
+    <section id="step-5" class="story-step" aria-labelledby="letter-heading" hidden>
+      <!-- 5A: 3D Sealed Cream Envelope -->
+      <div id="envelope-stage" class="envelope-stage">
+        <div class="eyebrow-pill eyebrow-green">
+          <span id="letter-eyebrow">MAIN BIRTHDAY LETTER · 23</span>
+        </div>
+        <h2 id="letter-heading" class="section-title">
+          One Final Letter for <span class="accent-blue">Ulil Azmi</span>
+        </h2>
+        <p id="envelope-hint" class="section-subtitle"></p>
+
+        <div id="envelope-3d-card" class="envelope-3d-shell surface-3d" role="button" tabindex="0" aria-label="Tap the 3D envelope to open the main 23rd birthday letter">
+          <div id="envelope-3d-slot" class="prop-3d-slot prop-3d-envelope"></div>
+          <span class="envelope-to-line">For Ulil Azmi · 23 Years Old</span>
+        </div>
+
+        <div class="step-footer-action">
+          <button type="button" id="open-envelope-btn" class="btn-3d btn-warm">
+            <span>Open the 3D Envelope</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 5B: Opened Heartfelt English Letter + Final Page Soundtrack + Real Photo Strip -->
+      <article id="letter-opened-card" class="letter-opened-card" hidden>
+        <!-- Final Page Backsound Bar: Hannah Montana by Rex Orange County -->
+        <div id="final-soundtrack-bar" class="soundtrack-bar surface-3d" aria-label="Final page soundtrack player">
+          <div class="soundtrack-meta">
+            <span class="soundtrack-badge">NOW PLAYING</span>
+            <span id="soundtrack-title-text" class="soundtrack-title">Hannah Montana by Rex Orange County</span>
+          </div>
+          <div class="soundtrack-actions">
+            <button type="button" id="bgm-toggle-btn" class="util-pill-btn" aria-pressed="true">
+              <span id="bgm-toggle-text">Pause Music</span>
+            </button>
+            <a id="bgm-youtube-link" class="util-pill-btn soundtrack-link" href="https://www.youtube.com/watch?v=xzMAqu2-k6A" target="_blank" rel="noopener noreferrer">
+              YouTube
+            </a>
+          </div>
+          <div id="bgm-embed-host" class="bgm-embed-host" aria-hidden="true"></div>
+          <audio id="bgm-local-audio" preload="none" loop></audio>
+        </div>
+
+        <div class="letter-paper surface-3d">
+          <div class="letter-paper-head">
+            <span id="letter-date-line" class="letter-date-line"></span>
+            <h2 class="letter-main-title">Happy 23rd Birthday, <span class="accent-warm">Kak Ulil Azmi!</span></h2>
+          </div>
+
+          <p id="letter-salutation" class="letter-salutation"></p>
+          <div id="letter-body-paragraphs" class="letter-body-paragraphs"></div>
+
+          <div class="letter-signoff">
+            <p id="letter-closing" class="letter-closing"></p>
+            <p id="letter-signature" class="letter-signature"></p>
+          </div>
+        </div>
+
+        <div class="letter-photo-strip" aria-label="Ulil Azmi photo collage">
+          <figure class="strip-polaroid surface-3d tilt-left">
+            <img src="assets/images/ulil/ulil-01.jpg" width="320" height="336" loading="lazy" alt="Ulil Azmi at Hutan Kota Jakarta" style="object-position: 50% 28%;" />
+          </figure>
+          <figure class="strip-polaroid surface-3d tilt-mid">
+            <img src="assets/images/ulil/ulil-05.jpg" width="320" height="336" loading="lazy" alt="Ulil Azmi at Jakarta Library" style="object-position: 50% 24%;" />
+          </figure>
+          <figure class="strip-polaroid surface-3d tilt-right">
+            <img src="assets/images/ulil/ulil-04.jpg" width="320" height="336" loading="lazy" alt="Ulil Azmi by colorful wall" style="object-position: 50% 22%;" />
+          </figure>
+          <figure class="strip-polaroid surface-3d tilt-end">
+            <img src="assets/images/ulil/ulil-07.jpg" width="320" height="336" loading="lazy" alt="Ulil Azmi smiling" style="object-position: 50% 20%;" />
+          </figure>
+        </div>
+
+        <div class="letter-replay-row">
+          <button type="button" id="replay-journey-btn" class="btn-3d btn-outline">
+            <span>Start Over from Passcode</span>
+          </button>
+        </div>
+      </article>
     </section>
 
-    <!-- SCENE 08 : SIX WISHES FOR YOU -->
-    <section id="scene-wishes" class="scene scene-wishes" aria-labelledby="wishes-heading" hidden>
-      <div id="wishes-mount" class="story-realm-mount"></div>
-    </section>
-
-    <!-- SCENE 09 : A LETTER ACROSS THE OCEAN -->
-    <section id="scene-letter" class="scene scene-letter" aria-labelledby="letter-heading" hidden>
-      <div id="letter-mount" class="story-realm-mount"></div>
-    </section>
-
-    <!-- SCENE 10 : UNTIL THE NEXT TIDE -->
-    <section id="scene-ending" class="scene scene-ending" aria-labelledby="ending-heading" hidden>
-      <div id="ending-mount" class="ending-mount"></div>
-    </section>
   </main>
 
-  <!-- ========================================================================
-       LAYER 3: ATLAS DRAWER, TRANSITIONS & NATIVE HTML5 <dialog> MODALS
-       ======================================================================== -->
-  <aside id="map-index-drawer" class="map-index-drawer" aria-hidden="true" aria-label="Ocean Atlas and Story Directory">
-    <div class="drawer-header">
-      <div>
-        <p class="scene-meta-line">Navigation Directory</p>
-        <h3>All Realms & Story</h3>
-      </div>
-      <button type="button" id="map-drawer-close" class="modal-close-sm" aria-label="Close directory">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
-    </div>
-
-    <div class="drawer-quick-scenes">
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="welcome">Home</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="map">Adventure Map</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="memories">Memories</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="forgotten">Envelopes</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="wishes">Six Wishes</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="letter">Letter</button>
-      <button type="button" class="drawer-quick-pill" data-drawer-scene="ending">Ending</button>
-    </div>
-
-    <div id="map-index-list" class="drawer-list"></div>
-  </aside>
-
-  <div id="transition-layer" class="transition-layer" aria-hidden="true">
-    <div class="trans-ripple"></div>
-    <div class="trans-bubbles" id="trans-bubbles"></div>
-    <div class="trans-depth"></div>
-    <div class="trans-warp"></div>
-    <div class="trans-whale">
-      <svg viewBox="0 0 420 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M18 82C16 54 78 32 172 36C246 39 302 62 346 78C370 60 394 46 414 44C406 64 392 77 372 85C394 94 409 109 415 126C392 124 368 110 344 97C298 116 228 126 150 124C70 122 20 107 18 82Z"
-          fill="url(#twGrad)"
-        />
-        <defs>
-          <linearGradient id="twGrad" x1="18" y1="36" x2="414" y2="124" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#B9E8F5" stop-opacity="0.95" />
-            <stop offset="50%" stop-color="#246A9B" stop-opacity="0.95" />
-            <stop offset="100%" stop-color="#071C36" stop-opacity="0.95" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Native HTML5 <dialog> Lightbox Modal -->
-  <dialog id="lightbox-modal" class="ocean-dialog lightbox-dialog" aria-labelledby="lightbox-title">
-    <button type="button" class="modal-close-btn" data-close-modal="lightbox" aria-label="Close photo view">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    </button>
-    <div id="lightbox-media" class="lightbox-media"></div>
-    <div class="lightbox-meta">
-      <div class="lightbox-meta-top">
-        <h3 id="lightbox-title" class="lightbox-title"></h3>
-        <span id="lightbox-date" class="lightbox-date"></span>
-      </div>
-      <p id="lightbox-caption" class="lightbox-caption"></p>
-      <p id="lightbox-hidden-note" class="lightbox-hidden-note handwritten"></p>
-    </div>
-    <div class="lightbox-nav">
-      <button type="button" id="lightbox-prev" class="hud-pill hud-pill-sm" aria-label="Previous Photo">← Prev</button>
-      <span id="lightbox-counter" class="lightbox-counter">1 / 1</span>
-      <button type="button" id="lightbox-next" class="hud-pill hud-pill-sm" aria-label="Next Photo">Next →</button>
-    </div>
-  </dialog>
-
-  <!-- Native HTML5 <dialog> Interactive Detail Modal -->
-  <dialog id="detail-modal" class="ocean-dialog detail-dialog" aria-labelledby="detail-title">
-    <button type="button" class="modal-close-btn" data-close-modal="detail" aria-label="Close detail dialog">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    </button>
-    <div id="detail-body" class="detail-body"></div>
-  </dialog>
-
-  <!-- Native HTML5 <dialog> Replay Confirmation Modal -->
-  <dialog id="confirm-modal" class="ocean-dialog confirm-dialog" aria-labelledby="confirm-title">
-    <p class="scene-meta-line">Before You Reset the Tide</p>
-    <h3 id="confirm-title" class="confirm-title">Replay Our Journey From the Beginning?</h3>
-    <p id="confirm-desc" class="confirm-desc">
-      This will clear your discovered destinations, opened envelopes, and star constellation progress so you can experience every surprise from the start.
-    </p>
-    <div class="confirm-actions">
-      <button type="button" class="btn-ocean-ghost" data-close-modal="confirm">Keep My Progress</button>
-      <button type="button" id="confirm-accept-btn" class="btn-ocean-primary">Yes, Begin Again</button>
-    </div>
-  </dialog>
-
-  <!-- Local Bundled Libraries (Three.js + GSAP) -->
-  <script src="js/vendor/three.min.js" defer></script>
-  <script src="js/vendor/gsap.min.js" defer></script>
-
-  <!-- Modular Application Scripts -->
-  <script src="js/content.js" defer></script>
-  <script src="js/audio.js" defer></script>
-  <script src="js/whale.js" defer></script>
-  <script src="js/world3d.js" defer></script>
-  <script src="js/animations.js" defer></script>
-  <script src="js/interactions.js" defer></script>
-  <script src="js/memory.js" defer></script>
-  <script src="js/navigation.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/scene3d.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
